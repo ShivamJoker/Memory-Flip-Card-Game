@@ -1,39 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import Tile from './Tile.jsx';
+import { nanoid } from 'nanoid';
+import './index.css';
+import _ from 'lodash';
+const App = () => {
+  const [currentTile, setCurrentTile] = useState(null);
 
-function App() {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
+  let emojis = ['❤️', '✨', '🥺'];
+  const shuffleEmoji = () => {
+    emojis = _.shuffle(emojis);
+  };
+
   useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+    console.log('current tile ', currentTile);
+  }, [currentTile]);
+  const renderEmojiRow = () => {
+    // shuffleEmoji();
+    return emojis.map((emojiEl) => (
+      <Tile
+        key={nanoid()}
+        id={nanoid()}
+        setCurrentTile={(emoji) => setCurrentTile(emoji)}
+        emoji={emojiEl}
+      />
+    ));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <>
+      <h1>Hello world</h1>
+      {renderEmojiRow()}
+      <br />
+      {renderEmojiRow()}
+    </>
   );
-}
+};
 
 export default App;
